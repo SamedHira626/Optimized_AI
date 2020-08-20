@@ -26,49 +26,7 @@ X = df[features]
 y = df['label']
 window = tk.Tk()
 window.geometry("1500x800") 
-
-
-
-def import_data():
-    global dataframe
-    csv_file_path = filedialog.askopenfilename(filetypes=(("CSV Files", "*.csv"), ("All", "*.*")))
-    dataframe = pd.read_csv(csv_file_path)
-
-def read_csv_file():
-    list_all.delete(0, END)
-    for col in dataframe.columns:
-        list_all.insert(END, col)
-        
-       
-
-def AddButton(self):
-    self.insert(END, list_all.get(ACTIVE))
-
-def DeleteButton(self):
-    self.delete(ACTIVE)
-
-def get_target():  
-    targets = list_target.get(0, END)
-    targets = np.asarray(targets)
-    print("targets = ",targets)
-    
-def get_predictor():  
- 
-    predictors = list_predictor.get(0, END)
-    predictors = np.asarray(predictors)
-    print("predictors = ",predictors)
-    Xx = df[predictors]
-    print("new df = ",Xx)
-    
-    return Xx
-# def get_data(Xxx):
-#       return Xxx
-def buttonFunction2():
-      predictor = get_predictor()
-      predictor = np.asarray(predictor)
-      target = get_target()
-      target = np.asarray(target)
- 
+window.title("Samed Hıra")
 def plot_cm(cm,
                normalize=False,
                         title='Confusion matrix',
@@ -99,6 +57,50 @@ def plot_cm(cm,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
 
+def import_data():
+    global dataframe
+    csv_file_path = filedialog.askopenfilename(filetypes=(("CSV Files", "*.csv"), ("All", "*.*")))
+    dataframe = pd.read_csv(csv_file_path)
+
+def read_csv_file():
+    list_all.delete(0, END)
+    for col in dataframe.columns:
+        list_all.insert(END, col)
+        
+def disable_linear():
+    svm_coef0.configure(state="disabled")  
+             
+
+def AddButton(self):
+    self.insert(END, list_all.get(ACTIVE))
+
+def DeleteButton(self):
+    self.delete(ACTIVE)
+
+def get_target():  
+    targets = list_target.get(0, END)
+    targets = np.asarray(targets)
+    print("targets = ",targets)
+    
+def get_predictor():  
+ 
+    predictors = list_predictor.get(0, END)
+    predictors = np.asarray(predictors)
+    print("predictors = ",predictors)
+    Xx = df[predictors]
+    print("new df = ",Xx)
+    
+    return Xx
+# def get_data(Xxx):
+#       return Xxx
+def buttonFunction2():
+      predictor = get_predictor()
+      predictor = np.asarray(predictor)
+      target = get_target()
+      target = np.asarray(target)
+ 
+
+
 def buttonFunction():
     Xx = get_predictor()     
     combo_value = problem.get()
@@ -112,6 +114,7 @@ def buttonFunction():
               Cv=int(cross.get())
               kernel = svm_kernel.get()
               if kernel == "linear":
+                    disable_linear()
                     C = float(svm_c.get())  
                     svm_model_linear = SVC(kernel = kernel, C = C )        
               elif kernel == "sigmoid":
@@ -472,3 +475,7 @@ opt.place(x = 160,y = 670)
 
 
 window.mainloop()
+
+
+
+
