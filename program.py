@@ -26,7 +26,7 @@ X = df[features]
 y = df['label']
 window = tk.Tk()
 window.geometry("1500x800") 
-window['background']='#e6c1c1'
+# window['background']='#e6c1c1'
 window.title("Samed Hıra")
 def plot_cm(cm,
                normalize=False,
@@ -339,19 +339,19 @@ def run_button():
     print(problem.get())
     
     
-def disabling():
+def disable_kernel_func():
       
     
     kernel = svm_kernel.get()
     if kernel == "linear":
-            svm_coef0.configure(state="disabled")  
-            svm_d.configure(state="disabled")
-            svm_g.configure(state="disabled")
-            svm_c.configure(state="normal")
+            svm_coef0.configure(state='disabled')  
+            svm_d.configure(state='disabled')
+            svm_g.configure(state='disabled')
+            svm_c.configure(state='normal')
                             
     elif kernel == "sigmoid":
-            svm_d.configure(state="disabled")
-            svm_c.configure(state="normal")
+            svm_d.configure(state='disabled')
+            svm_c.configure(state='normal')
             svm_coef0.configure(state="normal")
             svm_g.configure(state="normal")
                    
@@ -365,13 +365,41 @@ def disabling():
             svm_c.configure(state="normal")
             svm_coef0.configure(state="normal")
             svm_g.configure(state="normal")
-            svm_d.configure(state="normal")    
-              
-      
-
+            svm_d.configure(state="normal")  
+            
+def disable_cross_random():
+    cross_random_value = int(cross_random.get())  
+    if cross_random_value == 1:
+            cross.configure(state="normal")
+            random.configure(state="disabled")
+    elif cross_random_value == 2:
+            cross.configure(state="disabled")
+            random.configure(state="normal")
+    
+def disable_mlp():
+    layers=int(mlp_layers.get())
+    if layers == 1:
+          first_layer.configure(state="normal")
+          second_layer.configure(state="disabled")
+          third_layer.configure(state="disabled")
+          comboBox2.configure(state="disabled")
+          comboBox3.configure(state="disabled")
+    elif layers == 2:
+          first_layer.configure(state="normal")
+          second_layer.configure(state="normal")
+          third_layer.configure(state="disabled")
+          comboBox2.configure(state="normal")
+          comboBox3.configure(state="disabled")
+    elif layers == 3:
+          first_layer.configure(state="normal")
+          second_layer.configure(state="normal")
+          third_layer.configure(state="normal")
+          comboBox2.configure(state="normal")
+          comboBox3.configure(state="normal")
     
 
-label_output = tk.Label(window,bg="#E6C1C1", text = "Outputs:")
+    
+label_output = tk.Label(window, text = "Outputs:")
 label_output.place(x = 1180, y = 15)
         
 frame_left = tk.Frame(window, width = 400, height = 625, bg="white")
@@ -411,21 +439,21 @@ button = tk.Button(window, text = "Run", activebackground = "blue",
 button.place(x = 900, y = 750)
 
 
-label_func = tk.Label(window,bg="#E6C1C1", text = "Kernel Func:")
+label_func = tk.Label(window, text = "Kernel Func:")
 label_func.place(x = 515, y = 45)
 svm_kernel = tk.StringVar()
-tk.Radiobutton(window, bg="#E6C1C1",text = "Linear", value = "linear",variable = svm_kernel).place(x=515, y= 70)
-tk.Radiobutton(window, bg="#E6C1C1",text = "RBF", value = "rbf", variable = svm_kernel).place(x= 515, y= 95)
-tk.Radiobutton(window, bg="#E6C1C1",text = "Polynomial", value = "poly",variable = svm_kernel).place(x= 515, y= 120)
-tk.Radiobutton(window, bg="#E6C1C1",text = "Sigmoid", value = "sigmoid", variable = svm_kernel).place(x= 515, y= 145)
+tk.Radiobutton(window,text = "Linear", value = "linear",command=disable_kernel_func,variable = svm_kernel).place(x=515, y= 70)
+tk.Radiobutton(window,text = "RBF", value = "rbf", command=disable_kernel_func,variable = svm_kernel).place(x= 515, y= 95)
+tk.Radiobutton(window,text = "Polynomial", value = "poly",command=disable_kernel_func,variable = svm_kernel).place(x= 515, y= 120)
+tk.Radiobutton(window,text = "Sigmoid", value = "sigmoid", command=disable_kernel_func,variable = svm_kernel).place(x= 515, y= 145)
 
 
-label_prm = tk.Label(window,bg="#E6C1C1", text = "Model Parameters")
+label_prm = tk.Label(window, text = "Model Parameters")
 label_prm.place(x = 515, y = 195)
 
 cross_random = tk.StringVar()
-tk.Radiobutton(window,bg="#E6C1C1", text = "Cross Validation:", value = 1,variable = cross_random).place(x=15, y= 320)
-tk.Radiobutton(window, bg="#E6C1C1",text = "Random Percent:", value = 2, variable = cross_random).place(x= 15, y= 370)
+tk.Radiobutton(window, text = "Cross Validation:", value = 1,command=disable_cross_random,variable = cross_random).place(x=15, y= 320)
+tk.Radiobutton(window,text = "Random Percent:", value = 2, command=disable_cross_random,variable = cross_random).place(x= 15, y= 370)
 
 
 # label_cross= tk.Label(window, text = "Cross Validation:")
@@ -440,92 +468,92 @@ random = tk.Entry(window, width = 12)
 random.insert(string = "",index = 0)
 random.place(x = 15,y = 395)
 
-label_c = tk.Label(window,bg="#E6C1C1", text = "C:")
+label_c = tk.Label(window, text = "C:")
 label_c.place(x = 515, y = 220)
 
 svm_c = tk.Entry(window, width = 10)
 svm_c.insert(string = "",index = 0)
 svm_c.place(x = 515,y = 245)
 
-label_coef0 = tk.Label(window,bg="#E6C1C1", text = "Coef0:")
+label_coef0 = tk.Label(window, text = "Coef0:")
 label_coef0.place(x = 515, y = 270)
 
 svm_coef0 = tk.Entry(window, width = 10)
 svm_coef0.insert(string = "",index = 0)
 svm_coef0.place(x = 515,y = 295)
 
-label_g = tk.Label(window,bg="#E6C1C1", text = "Gamma:")
+label_g = tk.Label(window, text = "Gamma:")
 label_g.place(x = 515, y = 320)
 
 svm_g = tk.Entry(window, width = 10)
 svm_g.insert(string = "",index = 0)
 svm_g.place(x = 515,y = 345)
 
-label_d = tk.Label(window,bg="#E6C1C1", text = "Degree:")
+label_d = tk.Label(window, text = "Degree:")
 label_d.place(x = 515, y = 370)
 
 svm_d = tk.Entry(window, width = 10)
 svm_d.insert(string = "",index = 0)
 svm_d.place(x = 515,y = 395)
 
-disabling()
 
-label2 = tk.Label(window,bg="#E6C1C1", text = "MLP")
+
+label2 = tk.Label(window, text = "MLP")
 label2.place(x = 65, y = 445)
 
-label2 = tk.Label(window,bg="#E6C1C1", text = "# of hidden layer:")
+label2 = tk.Label(window, text = "# of hidden layer:")
 label2.place(x = 15, y = 470)
 
 mlp_layers = tk.StringVar()
-tk.Radiobutton(window,bg="#E6C1C1", text = "1", value = 1,variable = mlp_layers).place(x=15, y= 495)
-tk.Radiobutton(window, bg="#E6C1C1",text = "2", value = 2, variable = mlp_layers).place(x= 65, y= 495)
-tk.Radiobutton(window, bg="#E6C1C1",text = "3", value = 3,variable = mlp_layers).place(x= 115, y= 495)
+tk.Radiobutton(window, text = "1", value = 1,command=disable_mlp,variable = mlp_layers,state="normal").place(x=15, y= 495)
+tk.Radiobutton(window,text = "2", value = 2, command=disable_mlp,variable = mlp_layers,state="normal").place(x= 65, y= 495)
+tk.Radiobutton(window,text = "3", value = 3,command=disable_mlp,variable = mlp_layers,state="normal").place(x= 115, y= 495)
 
-label_first_layer = tk.Label(window,bg="#E6C1C1", text = "Neurons in 1st layer:")
+label_first_layer = tk.Label(window, text = "Neurons in 1st layer:")
 label_first_layer.place(x = 15, y = 545)
 first_layer = tk.Entry(window, width = 10)
 first_layer.insert(string = "",index = 0)
 first_layer.place(x = 160,y = 545)
 
-label_second_layer = tk.Label(window, bg="#E6C1C1",text = "Neurons in 2nd layer:")
+label_second_layer = tk.Label(window,text = "Neurons in 2nd layer:")
 label_second_layer.place(x = 15, y = 570)
 second_layer = tk.Entry(window, width = 10)
 second_layer.insert(string = "",index = 0)
 second_layer.place(x = 160,y = 570)
 
-label_third_layer = tk.Label(window,bg="#E6C1C1", text = "Neurons in 3rd layer:")
+label_third_layer = tk.Label(window, text = "Neurons in 3rd layer:")
 label_third_layer.place(x = 15, y = 595)
 third_layer = tk.Entry(window, width = 10)
 third_layer.insert(string = "",index = 0)
 third_layer.place(x = 160,y = 595)
 
-label_act = tk.Label(window,bg="#E6C1C1", text = "Activation Functions:")
+label_act = tk.Label(window, text = "Activation Functions:")
 label_act.place(x = 270, y = 515)
 
 activation_func1 = tk.StringVar()
-comboBox = ttk.Combobox(window, textvariable = activation_func1, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
-comboBox.place(x=250,y=545)
+comboBox1 = ttk.Combobox(window, textvariable = activation_func1, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
+comboBox1.place(x=250,y=545)
 
 activation_func2 = tk.StringVar()
-comboBox = ttk.Combobox(window, textvariable = activation_func2, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
-comboBox.place(x=250,y=570)
+comboBox2 = ttk.Combobox(window, textvariable = activation_func2, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
+comboBox2.place(x=250,y=570)
 
 activation_func3 = tk.StringVar()
-comboBox = ttk.Combobox(window, textvariable = activation_func3, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
-comboBox.place(x=250,y=595)
+comboBox3 = ttk.Combobox(window, textvariable = activation_func3, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
+comboBox3.place(x=250,y=595)
 
-label_iter = tk.Label(window,bg="#E6C1C1", text = "Epoch:")
+label_iter = tk.Label(window, text = "Epoch:")
 label_iter.place(x = 15, y = 645)
 itera = tk.Entry(window, width = 10)
 itera.insert(string = "",index = 0)
 itera.place(x = 160,y = 645)
 
-label_opt = tk.Label(window,bg="#E6C1C1", text = "Learning rate:")
+label_opt = tk.Label(window, text = "Learning rate:")
 label_opt.place(x = 15, y = 670)
 opt = tk.Entry(window, width = 10)
 opt.insert(string = "",index = 0)
 opt.place(x = 160,y = 670)
 
 
-disabling()
+
 window.mainloop()
