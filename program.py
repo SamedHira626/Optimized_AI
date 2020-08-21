@@ -123,35 +123,19 @@ def run_button():
         if cross_random_value == 1:
               Cv=int(cross.get())
               kernel = svm_kernel.get()
-              if kernel == "linear":
-                    # svm_coef0.configure(state="disabled")  
-                    # svm_d.configure(state="disabled")
-                    # svm_g.configure(state="disabled")
-                    # svm_c.configure(state="normal")
+              if kernel == "linear":                  
                     C = float(svm_c.get())  
                     svm_model_linear = SVC(kernel = kernel, C = C )        
               elif kernel == "sigmoid":
-                    # svm_d.configure(state="disabled")
-                    # svm_c.configure(state="normal")
-                    # svm_coef0.configure(state="normal")
-                    # svm_g.configure(state="normal")
                     C = float(svm_c.get())
                     Coef0 = float(svm_coef0.get())
                     Gamma = float(svm_g.get())
                     svm_model_linear = SVC(kernel = kernel,C=C,gamma=Gamma, coef0=Coef0 )
               elif kernel == "rbf":
-                    # svm_coef0.configure(state="disabled")
-                    # svm_d.configure(state="disabled")
-                    # svm_c.configure(state="normal")
-                    # svm_g.configure(state="normal")
                     C = float(svm_c.get())
                     Gamma = float(svm_g.get())
                     svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma)             
               elif kernel == "poly":
-                    # svm_c.configure(state="normal")
-                    # svm_coef0.configure(state="normal")
-                    # svm_g.configure(state="normal")
-                    # svm_d.configure(state="normal")
                     C = float(svm_c.get())
                     Coef0 = float(svm_coef0.get())
                     Gamma = float(svm_g.get())
@@ -216,16 +200,9 @@ def run_button():
          
               svm_predictions = svm_model_linear.predict(X_test) 
               
-        # accuracy = svm_model_linear.score(X_test, y_test) 
-        # print("accuracy= ",accuracy)  
-
-        # cm = confusion_matrix(y_test, svm_predictions) 
-# print("con. mat. = ",cm)
-
 #accuracy = (tp+tn)/tp+tn+fp+fn
 
               np.set_printoptions(precision=2)
-
 
               titles_options = [("Confusion matrix, without normalization", None),
                   ("Normalized confusion matrix", 'true')]
@@ -243,7 +220,7 @@ def run_button():
 # precision = tp/(tp+fp)
 # recall = tp/(tp+fn)
 #f1 ikisinin harmonik ortalaması
-        # print ('c.r = ',classification_report(y_test, svm_predictions))
+        
               report=classification_report(y_test, svm_predictions)
         
               label_report = tk.Label(window, text = report)
@@ -297,13 +274,8 @@ def run_button():
               Cv=int(cross.get())
         
               MLP = model.fit(Xx, y,epochs=epoch_num,validation_split=Cv)
-
-        # MLP = model.fit(X_train, y_train,epochs=epoch_num)
-        # scores = cross_val_score(MLP, X, y, cv=Cv)
-        # print("Scores = ",scores)
               y_pred = model.predict(Xx)
-        # print ('Accuracy Score :',accuracy_score(y_test, y_pred))
-# MLP = model.fit(X_train, Y_train)
+
               y_pred=np.argmax(y_pred,axis=1)
 
               from sklearn.metrics import confusion_matrix
@@ -314,7 +286,6 @@ def run_button():
               random_percent=float(random.get())
               X_train, X_test, y_train, y_test = train_test_split(Xx, y, test_size=random_percent, random_state=1)
               MLP = model.fit(X_train, y_train,epochs=epoch_num)
-
         
               y_pred = model.predict(X_test)
         
@@ -325,23 +296,15 @@ def run_button():
               report1=classification_report(y_test, y_pred)
               print ('Accuracy Score :',accuracy_score(y_test, y_pred))
         plot_cm(cm=cm, title='Confusion Matrix')
-        
-        
+               
         np.set_printoptions(precision=2)
-        
-        
-        
+               
         label_report = tk.Label(window, text = report1)
         label_report.place(x = 1060 ,y = 50)
 
-    
- 
     print(problem.get())
-    
-    
-def disable_kernel_func():
-      
-    
+   
+def disable_kernel_func():    
     kernel = svm_kernel.get()
     if kernel == "linear":
             svm_coef0.configure(state='disabled')  
@@ -398,13 +361,6 @@ def disable_mlp():
           comboBox3.configure(state="normal")
     
 
-    
-label_output = tk.Label(window, text = "Outputs:")
-label_output.place(x = 1180, y = 15)
-        
-frame_left = tk.Frame(window, width = 400, height = 625, bg="white")
-frame_left.place(x=1020,y=50)
-
 problem = tk.StringVar()
 comboBox = ttk.Combobox(window, textvariable = problem, values = ("SVM","MLP","Naive Bayes"), state= "readonly")
 comboBox.place(x=15,y=15)
@@ -455,15 +411,10 @@ cross_random = tk.StringVar()
 tk.Radiobutton(window, text = "Cross Validation:", value = 1,command=disable_cross_random,variable = cross_random).place(x=15, y= 320)
 tk.Radiobutton(window,text = "Random Percent:", value = 2, command=disable_cross_random,variable = cross_random).place(x= 15, y= 370)
 
-
-# label_cross= tk.Label(window, text = "Cross Validation:")
-# label_cross.place(x = 15, y = 320)
 cross = tk.Entry(window, width = 12)
 cross.insert(string = "",index = 0)
 cross.place(x = 15,y = 345)
 
-# label_cross= tk.Label(window, text = "Random Percent:")
-# label_cross.place(x = 15, y = 370)
 random = tk.Entry(window, width = 12)
 random.insert(string = "",index = 0)
 random.place(x = 15,y = 395)
@@ -495,8 +446,6 @@ label_d.place(x = 515, y = 370)
 svm_d = tk.Entry(window, width = 10)
 svm_d.insert(string = "",index = 0)
 svm_d.place(x = 515,y = 395)
-
-
 
 label2 = tk.Label(window, text = "MLP")
 label2.place(x = 65, y = 445)
@@ -554,6 +503,10 @@ opt = tk.Entry(window, width = 10)
 opt.insert(string = "",index = 0)
 opt.place(x = 160,y = 670)
 
-
+label_output = tk.Label(window, text = "Outputs:")
+label_output.place(x = 1180, y = 15)
+        
+frame_left = tk.Frame(window, width = 400, height = 625, bg="white")
+frame_left.place(x=1020,y=50)
 
 window.mainloop()
