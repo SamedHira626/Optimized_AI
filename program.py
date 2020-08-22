@@ -362,7 +362,7 @@ def disable_mlp():
     
 
 problem = tk.StringVar()
-comboBox = ttk.Combobox(window, textvariable = problem, values = ("SVM","MLP","Naive Bayes"), state= "readonly")
+comboBox = ttk.Combobox(window, textvariable = problem, values = ("SVM","MLP"), state= "readonly")
 comboBox.place(x=15,y=15)
 
 ##########▓
