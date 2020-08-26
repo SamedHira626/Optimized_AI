@@ -16,14 +16,9 @@ from keras.optimizers import RMSprop, Adam, SGD, Nadam
 from sklearn.model_selection import cross_val_score    
 from tkinter import filedialog
 from tkinter import *
-df = pd.read_csv("output.csv")
-df.label = df.label.values-1
 
-features = list(df.columns.values)
-features.remove('label')
 print("----------------------")
-X = df[features]
-y = df['label']
+
 window = tk.Tk()
 window.geometry("1500x800") 
 # window['background']='#e6c1c1'
@@ -68,9 +63,7 @@ def read_csv_file():
     for col in dataframe.columns:
         list_all.insert(END, col)
         
-def disable_linear():
-    svm_coef0.configure(state="disabled")  
-             
+        
 
 def AddButton(self):
     self.insert(END, list_all.get(ACTIVE))
@@ -82,25 +75,21 @@ def get_target():
     targets = list_target.get(0, END)
     targets = np.asarray(targets)
     print("targets = ",targets)
-    
+    y = dataframe[targets]
+    print("chosen targets = ",y)
+    return y
+
 def get_predictor():  
  
     predictors = list_predictor.get(0, END)
     predictors = np.asarray(predictors)
     print("predictors = ",predictors)
-    Xx = df[predictors]
-    print("new df = ",Xx)
+    Xx = dataframe[predictors]
+    print("chosen predictors = ",Xx)
     global input_num
     input_num=len(Xx.columns)
     return Xx
-
-      
-        
               
-              
-                    
-                    
-      
 
 def save_button():
       predictor = get_predictor()
@@ -109,10 +98,10 @@ def save_button():
       target = np.asarray(target)
  
 
-
 def run_button():
     Xx = get_predictor()  
-    
+    y = get_target()
+    y = y.values.ravel()
     combo_value = problem.get()
     cross_random_value = int(cross_random.get()) 
     
