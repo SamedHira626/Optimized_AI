@@ -17,8 +17,6 @@ from sklearn.model_selection import cross_val_score
 from tkinter import filedialog
 from tkinter import *
 
-print("----------------------")
-
 window = tk.Tk()
 window.geometry("1500x800") 
 # window['background']='#e6c1c1'
@@ -61,9 +59,7 @@ def import_data():
 def read_csv_file():
     list_all.delete(0, END)
     for col in dataframe.columns:
-        list_all.insert(END, col)
-        
-        
+        list_all.insert(END, col)              
 
 def AddButton(self):
     self.insert(END, list_all.get(ACTIVE))
@@ -90,23 +86,18 @@ def get_predictor():
     input_num=len(Xx.columns)
     return Xx
               
-
 def save_button():
       predictor = get_predictor()
       predictor = np.asarray(predictor)
       target = get_target()
       target = np.asarray(target)
- 
 
 def run_button():
     Xx = get_predictor()  
     y = get_target()
     y = y.values.ravel()
     combo_value = problem.get()
-    cross_random_value = int(cross_random.get()) 
-    
-    
-    
+    cross_random_value = int(cross_random.get())             
 
     if combo_value == "SVM":
         if cross_random_value == 1:
@@ -349,7 +340,6 @@ def disable_mlp():
           comboBox2.configure(state="normal")
           comboBox3.configure(state="normal")
     
-
 problem = tk.StringVar()
 comboBox = ttk.Combobox(window, textvariable = problem, values = ("SVM","MLP"), state= "readonly")
 comboBox.place(x=15,y=15)
