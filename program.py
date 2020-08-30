@@ -38,7 +38,6 @@ def plot_cm(cm,
         print("Normalized confusion matrix")
     else:
         print('Confusion matrix, without normalization')
-
     print(cm)
 
     thresh = cm.max() / 2.
