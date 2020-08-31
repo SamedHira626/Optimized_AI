@@ -16,7 +16,16 @@ from keras.optimizers import RMSprop, Adam, SGD, Nadam
 from sklearn.model_selection import cross_val_score    
 from tkinter import filedialog
 from tkinter import *
+from sklearn.model_selection import GridSearchCV
 
+# df = pd.read_csv("output.csv")
+# df.label = df.label.values-1
+
+# features = list(df.columns.values)
+# features.remove('label')
+print("----------------------")
+# X = df[features]
+# y = df['label']
 window = tk.Tk()
 window.geometry("1500x800") 
 # window['background']='#e6c1c1'
@@ -38,6 +47,7 @@ def plot_cm(cm,
         print("Normalized confusion matrix")
     else:
         print('Confusion matrix, without normalization')
+
     print(cm)
 
     thresh = cm.max() / 2.
@@ -58,7 +68,9 @@ def import_data():
 def read_csv_file():
     list_all.delete(0, END)
     for col in dataframe.columns:
-        list_all.insert(END, col)              
+        list_all.insert(END, col)
+        
+        
 
 def AddButton(self):
     self.insert(END, list_all.get(ACTIVE))
@@ -85,42 +97,89 @@ def get_predictor():
     input_num=len(Xx.columns)
     return Xx
               
+
 def save_button():
       predictor = get_predictor()
       predictor = np.asarray(predictor)
       target = get_target()
       target = np.asarray(target)
+ 
 
 def run_button():
     Xx = get_predictor()  
     y = get_target()
     y = y.values.ravel()
     combo_value = problem.get()
-    cross_random_value = int(cross_random.get())             
+    cross_random_value = int(cross_random.get()) 
+    
+    
+    
 
     if combo_value == "SVM":
         if cross_random_value == 1:
               Cv=int(cross.get())
               kernel = svm_kernel.get()
               if kernel == "linear":                  
-                    C = float(svm_c.get())  
-                    svm_model_linear = SVC(kernel = kernel, C = C )        
+                    # C = float(svm_c.get())  
+                    # svm_model_linear = SVC(kernel = kernel, C = C )
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get())                                                    
+                    C = np.linspace(c_min, c_max, 3)  
+                    param_grid = {'C': C,'kernel': ['linear']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
+
               elif kernel == "sigmoid":
-                    C = float(svm_c.get())
-                    Coef0 = float(svm_coef0.get())
-                    Gamma = float(svm_g.get())
-                    svm_model_linear = SVC(kernel = kernel,C=C,gamma=Gamma, coef0=Coef0 )
+                    # C = float(svm_c.get())
+                    # Coef0 = float(svm_coef0.get())
+                    # Gamma = float(svm_g.get())
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get()) 
+                    coef_min=float(min_coef0.get())
+                    coef_max=float(max_coef0.get())
+                    g_min=float(min_g.get())
+                    g_max=float(max_g.get())
+                    C = np.linspace(c_min, c_max, 3)
+                    Coef0=np.linspace(coef_min, coef_max, 3)
+                    Gamma = np.linspace(g_min, g_max, 3)
+                    param_grid = {'C': C,'coef0':Coef0,'gamma':Gamma,'kernel': ['sigmoid']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
+
+                    # svm_model_linear = SVC(kernel = kernel,C=C,gamma=Gamma, coef0=Coef0 )
               elif kernel == "rbf":
-                    C = float(svm_c.get())
-                    Gamma = float(svm_g.get())
-                    svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma)             
+                    # C = float(svm_c.get())
+                    # Gamma = float(svm_g.get())
+                    # svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma) 
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get())                    
+                    g_min=float(min_g.get())
+                    g_max=float(max_g.get())
+                    C = np.linspace(c_min, c_max, 3)                  
+                    Gamma = np.linspace(g_min, g_max, 3)
+                    param_grid = {'C': C,'gamma':Gamma,'kernel': ['rbf']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
+                    
               elif kernel == "poly":
-                    C = float(svm_c.get())
-                    Coef0 = float(svm_coef0.get())
-                    Gamma = float(svm_g.get())
-                    Degree = int(svm_d.get()) 
-                    svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma, coef0=Coef0, degree=Degree) 
-                    print("SVM çalışıyor")
+                    # C = float(svm_c.get())
+                    # Coef0 = float(svm_coef0.get())
+                    # Gamma = float(svm_g.get())
+                    # Degree = int(svm_d.get()) 
+                    # svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma, coef0=Coef0, degree=Degree) 
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get()) 
+                    coef_min=float(min_coef0.get())
+                    coef_max=float(max_coef0.get())
+                    g_min=float(min_g.get())
+                    g_max=float(max_g.get())
+                    d_min = float(min_d.get())
+                    d_max = float(max_d.get())
+                    C = np.linspace(c_min, c_max, 3)
+                    Coef0=np.linspace(coef_min, coef_max, 3)
+                    Gamma = np.linspace(g_min, g_max, 3)
+                    Degree = np.linspace(d_min, d_max, 3)
+                    param_grid = {'C': C,'coef0':Coef0,'gamma':Gamma,'degree':Degree,'kernel': ['poly']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
+                    
+                    
               cvs = cross_val_score(svm_model_linear, Xx , y ,cv = Cv)
               print(cvs)
               svm_model_linear.fit(Xx,y)
@@ -156,27 +215,65 @@ def run_button():
 
               kernel = svm_kernel.get()
               if kernel == "linear":
-                    C = float(svm_c.get())  
-                    svm_model_linear = SVC(kernel = kernel, C = C ).fit(X_train, y_train)        
+                    # C = float(svm_c.get())  
+                    # svm_model_linear = SVC(kernel = kernel, C = C ).fit(X_train, y_train) 
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get())                    
+                    C = np.linspace(c_min, c_max, 3)                   
+                    param_grid = {'C': C,'kernel': ['linear']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
               elif kernel == "sigmoid":
-                    C = float(svm_c.get())
-                    Coef0 = float(svm_coef0.get())
-                    Gamma = float(svm_g.get())
-                    svm_model_linear = SVC(kernel = kernel,C=C,gamma=Gamma, coef0=Coef0 ).fit(X_train, y_train)
+                    # C = float(svm_c.get())
+                    # Coef0 = float(svm_coef0.get())
+                    # Gamma = float(svm_g.get())
+                    # svm_model_linear = SVC(kernel = kernel,C=C,gamma=Gamma, coef0=Coef0 ).fit(X_train, y_train)
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get()) 
+                    coef_min=float(min_coef0.get())
+                    coef_max=float(max_coef0.get())
+                    g_min=float(min_g.get())
+                    g_max=float(max_g.get())
+                    C = np.linspace(c_min, c_max, 3)
+                    Coef0=np.linspace(coef_min, coef_max, 3)
+                    Gamma = np.linspace(g_min, g_max, 3)
+                    param_grid = {'C': C,'coef0':Coef0,'gamma':Gamma,'kernel': ['sigmoid']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
               elif kernel == "rbf":
-                    C = float(svm_c.get())
-                    Gamma = float(svm_g.get())
-                    svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma).fit(X_train, y_train)             
+                    # C = float(svm_c.get())
+                    # Gamma = float(svm_g.get())
+                    # svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma).fit(X_train, y_train)
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get())                    
+                    g_min=float(min_g.get())
+                    g_max=float(max_g.get())
+                    C = np.linspace(c_min, c_max, 3)                  
+                    Gamma = np.linspace(g_min, g_max, 3)
+                    param_grid = {'C': C,'gamma':Gamma,'kernel': ['rbf']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
               elif kernel == "poly":
-                    C = float(svm_c.get())
-                    Coef0 = float(svm_coef0.get())
-                    Gamma = float(svm_g.get())
-                    Degree = int(svm_d.get()) 
-                    svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma, coef0=Coef0, degree=Degree).fit(X_train, y_train)  
-                    print("SVM çalışıyor")
+                    # C = float(svm_c.get())
+                    # Coef0 = float(svm_coef0.get())
+                    # Gamma = float(svm_g.get())
+                    # Degree = int(svm_d.get()) 
+                    # svm_model_linear = SVC(kernel = kernel, C=C, gamma=Gamma, coef0=Coef0, degree=Degree).fit(X_train, y_train)  
+                    c_min=float(min_c.get())
+                    c_max=float(max_c.get()) 
+                    coef_min=float(min_coef0.get())
+                    coef_max=float(max_coef0.get())
+                    g_min=float(min_g.get())
+                    g_max=float(max_g.get())
+                    d_min = float(min_d.get())
+                    d_max = float(max_d.get())
+                    C = np.linspace(c_min, c_max, 3)
+                    Coef0=np.linspace(coef_min, coef_max, 3)
+                    Gamma = np.linspace(g_min, g_max, 3)
+                    Degree = np.linspace(d_min, d_max, 3)
+                    param_grid = {'C': C,'coef0':Coef0,'gamma':Gamma,'degree':Degree,'kernel': ['poly']}
+                    svm_model_linear = GridSearchCV(SVC(), param_grid, refit = True, verbose = 3)
+                    
         
        
-         
+              svm_model_linear.fit(X_train, y_train)
               svm_predictions = svm_model_linear.predict(X_test) 
               
 #accuracy = (tp+tn)/tp+tn+fp+fn
@@ -338,7 +435,25 @@ def disable_mlp():
           third_layer.configure(state="normal")
           comboBox2.configure(state="normal")
           comboBox3.configure(state="normal")
-    
+ 
+
+pw = ttk.Panedwindow(window, orient = tk.HORIZONTAL)
+pw.pack(fill = tk.BOTH, expand = True)
+
+m2 = ttk.Panedwindow(pw, orient = tk. VERTICAL)
+
+frame2 = ttk.Frame(pw, width = 500, height = 430, relief = tk.RAISED)
+frame3 = ttk.Frame(pw, width = 500, height = 240, relief = tk.RAISED)
+
+m2.add(frame2)
+m2.add(frame3)
+
+frame1 = ttk.Frame(pw, width = 430, height = 640, relief = tk.RAISED)
+frame4 = ttk.Frame(pw, width = 360, height = 640, relief = tk.RAISED)
+
+pw.add(m2)
+pw.add(frame1)      
+pw.add(frame4)
 problem = tk.StringVar()
 comboBox = ttk.Combobox(window, textvariable = problem, values = ("SVM","MLP"), state= "readonly")
 comboBox.place(x=15,y=15)
@@ -372,6 +487,8 @@ button = tk.Button(window, text = "Run", activebackground = "blue",
 
 button.place(x = 900, y = 750)
 
+label_svm = tk.Label(window, text = "SVM")
+label_svm.place(x = 535, y = 15)
 
 label_func = tk.Label(window, text = "Kernel Func:")
 label_func.place(x = 515, y = 45)
@@ -384,6 +501,8 @@ tk.Radiobutton(window,text = "Sigmoid", value = "sigmoid", command=disable_kerne
 
 label_prm = tk.Label(window, text = "Model Parameters")
 label_prm.place(x = 515, y = 195)
+
+tk.Label(window, text = "Search Range").place(x = 690, y = 195)
 
 cross_random = tk.StringVar()
 tk.Radiobutton(window, text = "Cross Validation:", value = 1,command=disable_cross_random,variable = cross_random).place(x=15, y= 320)
@@ -404,12 +523,28 @@ svm_c = tk.Entry(window, width = 10)
 svm_c.insert(string = "",index = 0)
 svm_c.place(x = 515,y = 245)
 
+min_c = tk.Entry(window, width = 10)
+min_c.insert(string = "",index = 0)
+min_c.place(x = 650,y = 245)
+
+max_c = tk.Entry(window, width = 10)
+max_c.insert(string = "",index = 0)
+max_c.place(x = 740,y = 245)
+
 label_coef0 = tk.Label(window, text = "Coef0:")
 label_coef0.place(x = 515, y = 270)
 
 svm_coef0 = tk.Entry(window, width = 10)
 svm_coef0.insert(string = "",index = 0)
 svm_coef0.place(x = 515,y = 295)
+
+min_coef0 = tk.Entry(window, width = 10)
+min_coef0.insert(string = "",index = 0)
+min_coef0.place(x = 650,y = 295)
+
+max_coef0 = tk.Entry(window, width = 10)
+max_coef0.insert(string = "",index = 0)
+max_coef0.place(x = 740,y = 295)
 
 label_g = tk.Label(window, text = "Gamma:")
 label_g.place(x = 515, y = 320)
@@ -418,12 +553,28 @@ svm_g = tk.Entry(window, width = 10)
 svm_g.insert(string = "",index = 0)
 svm_g.place(x = 515,y = 345)
 
+min_g = tk.Entry(window, width = 10)
+min_g.insert(string = "",index = 0)
+min_g.place(x = 650,y = 345)
+
+max_g = tk.Entry(window, width = 10)
+max_g.insert(string = "",index = 0)
+max_g.place(x = 740,y = 345)
+
 label_d = tk.Label(window, text = "Degree:")
 label_d.place(x = 515, y = 370)
 
 svm_d = tk.Entry(window, width = 10)
 svm_d.insert(string = "",index = 0)
 svm_d.place(x = 515,y = 395)
+
+min_d = tk.Entry(window, width = 10)
+min_d.insert(string = "",index = 0)
+min_d.place(x = 650,y = 395)
+
+max_d = tk.Entry(window, width = 10)
+max_d.insert(string = "",index = 0)
+max_d.place(x = 740,y = 395)
 
 label2 = tk.Label(window, text = "MLP")
 label2.place(x = 65, y = 445)
