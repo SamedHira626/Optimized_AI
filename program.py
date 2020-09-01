@@ -18,11 +18,7 @@ from tkinter import filedialog
 from tkinter import *
 from sklearn.model_selection import GridSearchCV
 
-# df = pd.read_csv("output.csv")
-# df.label = df.label.values-1
 
-# features = list(df.columns.values)
-# features.remove('label')
 print("----------------------")
 # X = df[features]
 # y = df['label']
