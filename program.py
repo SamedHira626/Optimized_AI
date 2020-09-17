@@ -333,7 +333,7 @@ def runButtonClick():
 
     print(problem.get())
    
-def disableKernelFunc():    
+def disableKernelFunc():    ########### ACTIVE DEACTIVE SITUATIONS #######
     kernel = svm_kernel.get()
     if kernel == "linear":
             svm_coef0.configure(state='disabled')  
@@ -359,7 +359,7 @@ def disableKernelFunc():
             svm_g.configure(state="normal")
             svm_d.configure(state="normal")  
             
-def disableCrossRandom():
+def disableCrossRandom():  ########### ACTIVE DEACTIVE SITUATIONS #######
     cross_random_value = int(cross_random.get())  
     if cross_random_value == 1:
             cross.configure(state="normal")
@@ -368,7 +368,7 @@ def disableCrossRandom():
             cross.configure(state="disabled")
             random.configure(state="normal")
     
-def disableMlp():
+def disableMlp():  ########### ACTIVE DEACTIVE SITUATIONS #######
     layers=int(mlp_layers.get())
     if layers == 1:
           first_layer.configure(state="normal")
@@ -411,7 +411,7 @@ problem = tk.StringVar()
 comboBox = ttk.Combobox(window, textvariable = problem, values = ("SVM","MLP"), state= "readonly")
 comboBox.place(x=15,y=15)
 
-##########▓
+############################################# DATASET OPERATIONS ###############################################
 
 tk.Button(window, text='Browse DataSet', command=importData).place(x=215,y=50)
 tk.Button(window, text='Read CSV', command=lambda: readCsvFile()).place(x=365,y=50)
@@ -441,7 +441,7 @@ button = tk.Button(window, text = "Run", activebackground = "blue",
 button.place(x = 900, y = 750)
 
 tk.Label(window, text = "SVM").place(x = 535, y = 15)
-
+############################################# KERNEL FUNCTIONS ###############################################
 label_func = tk.Label(window, text = "Kernel Func:")
 label_func.place(x = 515, y = 45)
 svm_kernel = tk.StringVar()
@@ -516,7 +516,7 @@ mlp_layers = tk.StringVar()
 tk.Radiobutton(window, text = "1", value = 1,command=disableMlp,variable = mlp_layers,state="normal").place(x=15, y= 495)
 tk.Radiobutton(window,text = "2", value = 2, command=disableMlp,variable = mlp_layers,state="normal").place(x= 65, y= 495)
 tk.Radiobutton(window,text = "3", value = 3,command=disableMlp,variable = mlp_layers,state="normal").place(x= 115, y= 495)
-
+############################################# MLP LAYERS ###############################################
 tk.Label(window, text = "Neurons in 1st layer:").place(x = 15, y = 545)
 first_layer = tk.Entry(window, width = 10)
 first_layer.insert(string = "",index = 0)
@@ -530,7 +530,7 @@ label_third_layer.place(x = 15, y = 595)
 third_layer = tk.Entry(window, width = 10)
 third_layer.insert(string = "",index = 0)
 third_layer.place(x = 160,y = 595)
-
+############################################# ACTIVATION FUNCTIONS ###############################################
 tk.Label(window, text = "Activation Functions:").place(x = 270, y = 515)
 activation_func1 = tk.StringVar()
 comboBox1 = ttk.Combobox(window, textvariable = activation_func1, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
@@ -541,12 +541,12 @@ comboBox2.place(x=250,y=570)
 activation_func3 = tk.StringVar()
 comboBox3 = ttk.Combobox(window, textvariable = activation_func3, values = ("relu","linear","sigmoid","softmax","tanh"), state= "readonly")
 comboBox3.place(x=250,y=595)
-
+############################################# EPOCH ###############################################
 tk.Label(window, text = "Epoch:").place(x = 15, y = 645)
 itera = tk.Entry(window, width = 10)
 itera.insert(string = "",index = 0)
 itera.place(x = 160,y = 645)
-
+############################################# LEARNING RATE ###############################################
 tk.Label(window, text = "Learning rate:").place(x = 15, y = 670)
 opt = tk.Entry(window, width = 10)
 opt.insert(string = "",index = 0)
