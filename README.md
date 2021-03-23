@@ -20,11 +20,6 @@
  > ```
 >  pip install numpy
 > ```
-
- - Pandas:	 
- > ```
->  pip install pandas
-> ```
   
  - Matplotlib:
  > ```
