@@ -27,4 +27,5 @@
 > ```
 
 
-![How to apply](howToSee.png)
+![ss](https://user-images.githubusercontent.com/42544569/114271969-b7e60900-9a1c-11eb-8e5c-76b9d6ead36e.png)
+
