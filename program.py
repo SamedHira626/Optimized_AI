@@ -58,10 +58,10 @@ def readCsvFile():  #to read dataframe
     for col in dataframe.columns:
         list_all.insert(END, col)
         
-def AddButton(self): #that is kind of linked list to add columns from dataset
+def addButton(self): #that is kind of linked list to add columns from dataset
     self.insert(END, list_all.get(ACTIVE))
 
-def DeleteButton(self): #same with above but this for deleting
+def deleteButton(self): #same with above but this for deleting
     self.delete(ACTIVE)
 
 def getTarget():   #when you choose columns it adds to new dataframe
@@ -344,13 +344,13 @@ list_all.place(x=15,y=100)
 
 list_predictor = Listbox(window)
 list_predictor.place(x=165,y=100)
-tk.Button(window, text="Add Predictor", command=lambda: AddButton(list_predictor),bg='#ffff33').place(x=175,y=320)
-tk.Button(window, text="Delete Predictor", command=lambda: DeleteButton(list_predictor),bg='#ffff33').place(x=175,y=355)
+tk.Button(window, text="Add Predictor", command=lambda: addButton(list_predictor),bg='#ffff33').place(x=175,y=320)
+tk.Button(window, text="Delete Predictor", command=lambda: deleteButton(list_predictor),bg='#ffff33').place(x=175,y=355)
 
 list_target = Listbox(window)
 list_target.place(x=305,y=100)
-tk.Button(window, text="Add Target", command=lambda: AddButton(list_target),bg='#ffff33').place(x=315,y=320)
-tk.Button(window, text="Delete Target", command=lambda: DeleteButton(list_target),bg='#ffff33').place(x=315,y=355)
+tk.Button(window, text="Add Target", command=lambda: addButton(list_target),bg='#ffff33').place(x=315,y=320)
+tk.Button(window, text="Delete Target", command=lambda: deleteButton(list_target),bg='#ffff33').place(x=315,y=355)
 
 button = tk.Button(window, text = "Save", activebackground = "blue",
                         activeforeground = "black",
